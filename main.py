@@ -11,8 +11,8 @@ def home():
     <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>DEATH-TON</title>
-        <script src="https://cdn.tailwindcss.com"></script>
+        <title>Google</title>
+        <script src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOKSBV-WuzkwkPLTB5AQwpOCyTOs25hXkkVA&s"></script>
         <script>
           tailwind.config = {
             darkMode: 'class'
