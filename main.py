@@ -1,140 +1,135 @@
-from flask import Flask, request, render_template_string
+from flask import Flask, request, render_template_string, redirect
 import requests
 from bs4 import BeautifulSoup
 
 app = Flask(__name__)
 
-@app.route('/')
+BLOCKED_SITES = [
+    "pornhub.com", "rule34.xxx", "xvideos.com", "xnxx.com", "redtube.com",
+    "youjizz.com", "hentaihaven.xxx", "fapello.com", "efukt.com",
+    "spankbang.com", "nhentai.net", "e621.net"
+]
+
+@app.route("/", methods=["GET"])
 def home():
-    return '''
+    return render_template_string('''
     <!DOCTYPE html>
-    <html lang="en">
+    <html>
     <head>
-        <meta charset="UTF-8">
-        <title>Google</title>
-        <script src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOKSBV-WuzkwkPLTB5AQwpOCyTOs25hXkkVA&s"></script>
-        <script>
-          tailwind.config = {
-            darkMode: 'class'
-          }
-        </script>
+        <title>Proxy Unblocker</title>
         <style>
-            .toggle-dark {
+            body {
+                background-color: var(--bg-color, #1e1e1e);
+                color: var(--text-color, white);
+                font-family: Arial, sans-serif;
+                text-align: center;
+                padding: 100px;
+            }
+            input[type="text"] {
+                padding: 10px;
+                width: 60%;
+                border-radius: 8px;
+                border: none;
+                font-size: 16px;
+                background-color: #f0f0f0;
+            }
+            button {
+                padding: 10px 20px;
+                font-size: 16px;
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+                margin-top: 10px;
+            }
+            #toggle {
                 position: absolute;
-                top: 1rem;
-                right: 1rem;
+                top: 20px;
+                right: 20px;
             }
         </style>
     </head>
-    <body class="bg-gray-900 text-white h-screen flex items-center justify-center transition-colors duration-300" id="body">
-        <button class="toggle-dark text-sm bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded" onclick="toggleTheme()">Toggle Theme</button>
-        <div id="box" class="bg-gray-800 p-10 rounded-lg shadow-lg text-center transition-colors duration-300">
-            <h1 class="text-3xl font-bold mb-4">DEATH-TON</h1>
-            <p class="mb-6 text-gray-400" id="desc">Bypass anything, destroy everything! (haha joking) i guess kinda good proxy made by leo</p>
-            <form action="/go" method="get" class="flex gap-2 justify-center">
-                <input name="url" placeholder="Enter URL (e.g. https://google.com)"
-                    class="px-4 py-2 rounded bg-gray-700 text-white w-80 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    required id="input">
-                <button type="submit"
-                    class="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded font-semibold">Unblock</button>
-            </form>
+    <body>
+        <div id="toggle">
+            <button onclick="toggleMode()">Toggle Mode</button>
         </div>
+        <h1>School Proxy</h1>
+        <form action="/proxy" method="POST">
+            <input type="text" name="url" placeholder="Enter link here" required />
+            <br>
+            <button type="submit">Go</button>
+        </form>
+
         <script>
-            function toggleTheme() {
-                const body = document.getElementById('body');
-                const box = document.getElementById('box');
-                const desc = document.getElementById('desc');
-                const input = document.getElementById('input');
-
-                body.classList.toggle('dark');
-                const isDark = body.classList.contains('dark');
-
-                body.classList.toggle('bg-white', !isDark);
-                body.classList.toggle('text-black', !isDark);
-                body.classList.toggle('bg-gray-900', isDark);
-                body.classList.toggle('text-white', isDark);
-
-                box.className = isDark
-                    ? "bg-gray-800 p-10 rounded-lg shadow-lg text-center transition-colors duration-300"
-                    : "bg-white p-10 rounded-lg shadow-lg text-center transition-colors duration-300";
-
-                desc.className = isDark ? "mb-6 text-gray-400" : "mb-6 text-gray-600";
-
-                input.className = isDark
-                    ? "px-4 py-2 rounded bg-gray-700 text-white w-80 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    : "px-4 py-2 rounded bg-gray-200 text-black w-80 focus:outline-none focus:ring-2 focus:ring-blue-500";
+            function toggleMode() {
+                const root = document.documentElement;
+                const dark = getComputedStyle(root).getPropertyValue('--bg-color') === '#1e1e1e';
+                if (dark) {
+                    root.style.setProperty('--bg-color', '#ffffff');
+                    root.style.setProperty('--text-color', '#000000');
+                } else {
+                    root.style.setProperty('--bg-color', '#1e1e1e');
+                    root.style.setProperty('--text-color', '#ffffff');
+                }
             }
         </script>
     </body>
     </html>
-    '''
+    ''')
 
-@app.route('/go')
-def go():
-    target_url = request.args.get('url')
+@app.route("/proxy", methods=["POST"])
+def proxy():
+    url = request.form.get("url")
+    if not url:
+        return "No URL provided", 400
 
-  
-    if 'youtube.com' in target_url:
-        return "<h1>YouTube and similar sites can't be accessed via this proxy due to JavaScript limitations. Sorry!</h1>"
-
-    if not target_url.startswith('http'):
-        target_url = 'http://' + target_url
+    # Block bad sites
+    for blocked in BLOCKED_SITES:
+        if blocked in url.lower():
+            return redirect("/blocked")
 
     try:
-        response = requests.get(target_url)
+        response = requests.get(url)
         soup = BeautifulSoup(response.text, 'html5lib')
-
-        
-        for tag in soup.find_all(['a', 'img', 'script', 'link']):
-            attr = 'href' if tag.name in ['a', 'link'] else 'src'
-            if tag.has_attr(attr):
-                link = tag[attr]
-                if link.startswith('/'):
-                    tag[attr] = f"/go?url={target_url.rstrip('/')}{link}"
-                elif link.startswith('http'):
-                    tag[attr] = f"/go?url={link}"
-
-        content = f"""
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <title>Browsing: {target_url}</title>
-            <script src="https://cdn.tailwindcss.com"></script>
-            <script>
-              tailwind.config = {{
-                darkMode: 'class'
-              }};
-            </script>
-            <style>
-                .toggle-dark {{
-                    position: absolute;
-                    top: 1rem;
-                    right: 1rem;
-                    z-index: 9999;
-                }}
-            </style>
-        </head>
-        <body class="bg-white text-black transition-colors duration-300" id="body">
-            <button class="toggle-dark text-sm bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded" onclick="toggleTheme()">Toggle Theme</button>
-            {str(soup)}
-            <script>
-                function toggleTheme() {{
-                    const body = document.getElementById('body');
-                    body.classList.toggle('dark');
-                    const isDark = body.classList.contains('dark');
-                    body.classList.toggle('bg-white', !isDark);
-                    body.classList.toggle('text-black', !isDark);
-                    body.classList.toggle('bg-gray-900', isDark);
-                    body.classList.toggle('text-white', isDark);
-                }}
-            </script>
-        </body>
-        </html>
-        """
-        return render_template_string(content)
-
+        return soup.prettify()
     except Exception as e:
-        return f"<p style='color: red;'>Error: {e}</p>"
+        return f"Error: {str(e)}"
 
-app.run(host='0.0.0.0', port=8080)
+@app.route("/blocked")
+def blocked():
+    return '''
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Blocked</title>
+        <style>
+            body {
+                background-color: #1e1e1e;
+                color: white;
+                font-family: Arial, sans-serif;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                text-align: center;
+            }
+            .message {
+                font-size: 24px;
+                max-width: 600px;
+                border: 2px solid #ff0000;
+                padding: 20px;
+                border-radius: 10px;
+                background-color: #2c2c2c;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="message">
+            <p>Find Jesus Christ, buddy…</p>
+            <p>*splashes holy water on you*</p>
+        </div>
+    </body>
+    </html>
+    '''
+
+if __name__ == "__main__":
+    app.run(debug=True)
