@@ -28,7 +28,7 @@ def home():
     </head>
     <body class="bg-gray-950 text-white h-screen flex items-center justify-center transition-colors duration-300" id="body">
         <button class="toggle-dark text-sm bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded" onclick="toggleTheme()">Toggle Theme</button>
-        <div id="box" class="bg-gray-800 p-10 rounded-lg shadow-lg text-center transition-colors duration-300">
+        <div id="box" class="bg-gray-900 border border-white p-10 rounded-lg shadow-lg text-center transition-colors duration-300">
             <h1 class="text-3xl font-bold mb-4">DEATH-T0N PR0XY</h1>
             <p class="mb-6 text-gray-400" id="desc">Bored of school? try this! :3</p>
             <form action="/go" method="get" class="flex gap-2 justify-center">
@@ -51,12 +51,12 @@ def home():
 
                 body.classList.toggle('bg-white', !isDark);
                 body.classList.toggle('text-black', !isDark);
-                body.classList.toggle('bg-gray-900', isDark);
+                body.classList.toggle('bg-gray-950', isDark);
                 body.classList.toggle('text-white', isDark);
 
                 box.className = isDark
-                    ? "bg-gray-930 p-10 rounded-lg shadow-lg text-center transition-colors duration-300"
-                    : "bg-white p-10 rounded-lg shadow-lg text-center transition-colors duration-300";
+                    ? "bg-gray-900 border border-white p-10 rounded-lg shadow-lg text-center transition-colors duration-300"
+                    : "bg-white border border-black p-10 rounded-lg shadow-lg text-center transition-colors duration-300";
 
                 desc.className = isDark ? "mb-6 text-gray-400" : "mb-6 text-gray-600";
 
@@ -79,7 +79,6 @@ def go():
         response = requests.get(target_url)
         soup = BeautifulSoup(response.text, 'html.parser')
 
-        # Rewrite all links to go through the proxy
         for tag in soup.find_all(['a', 'img', 'script', 'link']):
             attr = 'href' if tag.name in ['a', 'link'] else 'src'
             if tag.has_attr(attr):
