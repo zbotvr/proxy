@@ -32,7 +32,7 @@ def home():
             <h1 class="text-3xl font-bold mb-4">DEATH-T0N PR0XY</h1>
             <p class="mb-6 text-gray-400" id="desc">Bored of school? try this! :3</p>
             <form action="/go" method="get" class="flex gap-2 justify-center">
-                <input name="url" placeholder="Enter URL (e.g. https://google.com, google.com)"
+                <input name="url" placeholder="Enter URL (e.g. https://google.com)"
                     class="px-4 py-2 rounded bg-gray-700 text-white w-80 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     required id="input">
                 <button type="submit"
@@ -55,7 +55,7 @@ def home():
                 body.classList.toggle('text-white', isDark);
 
                 box.className = isDark
-                    ? "bg-gray-800 p-10 rounded-lg shadow-lg text-center transition-colors duration-300"
+                    ? "bg-gray-930 p-10 rounded-lg shadow-lg text-center transition-colors duration-300"
                     : "bg-white p-10 rounded-lg shadow-lg text-center transition-colors duration-300";
 
                 desc.className = isDark ? "mb-6 text-gray-400" : "mb-6 text-gray-600";
