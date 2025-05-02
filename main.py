@@ -26,7 +26,7 @@ def home():
             }
         </style>
     </head>
-    <body class="bg-gray-900 text-white h-screen flex items-center justify-center transition-colors duration-300" id="body">
+    <body class="bg-gray-950 text-white h-screen flex items-center justify-center transition-colors duration-300" id="body">
         <button class="toggle-dark text-sm bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded" onclick="toggleTheme()">Toggle Theme</button>
         <div id="box" class="bg-gray-800 p-10 rounded-lg shadow-lg text-center transition-colors duration-300">
             <h1 class="text-3xl font-bold mb-4">DEATH-T0N PR0XY</h1>
