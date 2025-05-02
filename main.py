@@ -13,6 +13,7 @@ def home():
         <meta charset="UTF-8">
         <title>DEATH-T0N</title>
         <script src="https://cdn.tailwindcss.com"></script>
+        <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
         <script>
           tailwind.config = {
             darkMode: 'class'
@@ -24,13 +25,16 @@ def home():
                 top: 1rem;
                 right: 1rem;
             }
+            .typewriter {
+                font-family: 'Special Elite', monospace;
+            }
         </style>
     </head>
-    <body class="bg-gray-950 text-white h-screen flex items-center justify-center transition-colors duration-300" id="body">
+    <body class="bg-black text-white h-screen flex items-center justify-center transition-colors duration-300" id="body">
         <button class="toggle-dark text-sm bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded" onclick="toggleTheme()">Toggle Theme</button>
-        <div id="box" class="bg-gray-950 border border-white p-10 rounded-lg shadow-lg text-center transition-colors duration-300">
-            <h1 class="text-3xl font-bold mb-4">DEATH-T0N PR0XY</h1>
-            <p class="mb-6 text-gray-400" id="desc">Bored of school? try this! :3</p>
+        <div id="box" class="bg-black border border-white p-10 rounded-lg shadow-lg text-center transition-colors duration-300">
+            <h1 class="text-3xl font-bold mb-4 typewriter">DEATH-T0N PR0XY</h1>
+            <p class="mb-6 text-gray-400" id="desc">Bored of school? Try this! :3</p>
             <form action="/go" method="get" class="flex gap-2 justify-center">
                 <input name="url" placeholder="Enter URL (e.g. https://google.com)"
                     class="px-4 py-2 rounded bg-gray-700 text-white w-80 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -51,11 +55,11 @@ def home():
 
                 body.classList.toggle('bg-white', !isDark);
                 body.classList.toggle('text-black', !isDark);
-                body.classList.toggle('bg-gray-950', isDark);
+                body.classList.toggle('bg-black', isDark);
                 body.classList.toggle('text-white', isDark);
 
                 box.className = isDark
-                    ? "bg-gray-950 border border-white p-10 rounded-lg shadow-lg text-center transition-colors duration-300"
+                    ? "bg-black border border-white p-10 rounded-lg shadow-lg text-center transition-colors duration-300"
                     : "bg-white border border-black p-10 rounded-lg shadow-lg text-center transition-colors duration-300";
 
                 desc.className = isDark ? "mb-6 text-gray-400" : "mb-6 text-gray-600";
@@ -100,17 +104,9 @@ def go():
                 darkMode: 'class'
               }};
             </script>
-            <style>
-                .toggle-dark {{
-                    position: absolute;
-                    top: 1rem;
-                    right: 1rem;
-                    z-index: 9999;
-                }}
-            </style>
         </head>
         <body class="bg-white text-black transition-colors duration-300" id="body">
-            <button class="toggle-dark text-sm bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded" onclick="toggleTheme()">Toggle Theme</button>
+            <button class="toggle-dark text-sm bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded" onclick="toggleTheme()" style="position:fixed;top:1rem;right:1rem;z-index:9999;">Toggle Theme</button>
             {str(soup)}
             <script>
                 function toggleTheme() {{
@@ -119,7 +115,7 @@ def go():
                     const isDark = body.classList.contains('dark');
                     body.classList.toggle('bg-white', !isDark);
                     body.classList.toggle('text-black', !isDark);
-                    body.classList.toggle('bg-gray-900', isDark);
+                    body.classList.toggle('bg-black', isDark);
                     body.classList.toggle('text-white', isDark);
                 }}
             </script>
