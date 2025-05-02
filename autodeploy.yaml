@@ -1,0 +1,23 @@
+name: Auto Deploy with Executable Scripts
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  make-executable-and-run:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v3
+
+      - name: Make scripts executable
+        run: chmod +x *.sh
+
+      - name: Run setup script (optional)
+        run: ./setup.sh || echo "No setup.sh found or not needed"
+
+      - name: Run deploy script
+        run: ./deploy.sh
