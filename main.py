@@ -29,8 +29,8 @@ def home():
     <body class="bg-gray-900 text-white h-screen flex items-center justify-center transition-colors duration-300" id="body">
         <button class="toggle-dark text-sm bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded" onclick="toggleTheme()">Toggle Theme</button>
         <div id="box" class="bg-gray-800 p-10 rounded-lg shadow-lg text-center transition-colors duration-300">
-            <h1 class="text-3xl font-bold mb-4">School Proxy Unblocker</h1>
-            <p class="mb-6 text-gray-400" id="desc">Bypass anything from your school. Stay sneaky.</p>
+            <h1 class="text-3xl font-bold mb-4">DEATH-TON</h1>
+            <p class="mb-6 text-gray-400" id="desc">Bypass anything, destroy everything! (haha joking) i guess kinda good proxy made by leo</p>
             <form action="/go" method="get" class="flex gap-2 justify-center">
                 <input name="url" placeholder="Enter URL (e.g. https://google.com)"
                     class="px-4 py-2 rounded bg-gray-700 text-white w-80 focus:outline-none focus:ring-2 focus:ring-blue-500"
