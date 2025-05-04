@@ -1,36 +1,84 @@
-<style>
-    body {
-        margin: 0;
-        padding: 0;
-        height: 100vh;
-        background: linear-gradient(to top left, #6a00ff 0%, #1e1e1e 50%);
-        color: var(--text-color, white);
-        font-family: Arial, sans-serif;
-        text-align: center;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>DEATH-T0N PR0XY</title>
+
+  <!-- Discord Embed Meta Tags -->
+  <meta property="og:title" content="DEATH-T0N PR0XY" />
+  <meta property="og:description" content="Bypass blocks. Unblock the internet. Get holy." />
+  <meta property="og:image" content="https://yourdomain.com/static/preview.png" />
+  <meta property="og:url" content="https://yourdomain.com/" />
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class'
     }
-    input[type="text"] {
-        padding: 10px;
-        width: 60%;
-        border-radius: 8px;
-        border: none;
-        font-size: 16px;
-        background-color: #f0f0f0;
+  </script>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <style>
+    .toggle-dark {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
     }
-    button {
-        padding: 10px 20px;
-        font-size: 16px;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        margin-top: 10px;
+
+    .typewriter {
+      font-family: 'Special Elite', monospace;
     }
-    #toggle {
-        position: absolute;
-        top: 20px;
-        right: 20px;
+  </style>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
+</head>
+
+<body class="bg-black text-white h-screen flex items-center justify-center transition-colors duration-300" id="body">
+  <button class="toggle-dark text-sm bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded" onclick="toggleTheme()">Toggle Theme</button>
+
+  <div id="box" class="bg-black border border-white p-10 rounded-lg shadow-lg text-center transition-colors duration-300">
+    <h1 class="text-3xl font-bold mb-4 typewriter">DEATH-T0N PR0XY</h1>
+    <p class="mb-6 text-gray-400" id="desc">Bored of school? Try this! :3</p>
+    <form action="/go" method="get" class="flex gap-2 justify-center">
+      <input name="url" placeholder="Enter URL (e.g. https://google.com)"
+        class="px-4 py-2 rounded bg-gray-700 text-white w-80 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        required id="input">
+      <button type="submit"
+        class="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded font-semibold">Unblock</button>
+    </form>
+  </div>
+
+  <script>
+    function toggleTheme() {
+      const body = document.getElementById('body');
+      const box = document.getElementById('box');
+      const desc = document.getElementById('desc');
+      const input = document.getElementById('input');
+
+      body.classList.toggle('dark');
+      const isDark = body.classList.contains('dark');
+
+      body.classList.toggle('bg-white', !isDark);
+      body.classList.toggle('text-black', !isDark);
+      body.classList.toggle('bg-black', isDark);
+      body.classList.toggle('text-white', isDark);
+
+      box.className = isDark
+        ? "bg-black border border-white p-10 rounded-lg shadow-lg text-center transition-colors duration-300"
+        : "bg-white border border-black p-10 rounded-lg shadow-lg text-center transition-colors duration-300";
+
+      desc.className = isDark ? "mb-6 text-gray-400" : "mb-6 text-gray-600";
+
+      input.className = isDark
+        ? "px-4 py-2 rounded bg-gray-700 text-white w-80 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        : "px-4 py-2 rounded bg-gray-200 text-black w-80 focus:outline-none focus:ring-2 focus:ring-blue-500";
     }
-</style>
+  </script>
+</body>
+</html>
